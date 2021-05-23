@@ -1,0 +1,236 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+        </head>
+        <body>
+            <section>
+                <!-- &quot;      ____                       ______       &quot; -->
+<!-- &quot;     &#x2F; __ ____ _____ ____      &#x2F;_  __&#x2F;____   &quot; -->
+<!-- &quot;    &#x2F; &#x2F;_&#x2F; &#x2F; __ `&#x2F; __ `&#x2F; _ ______&#x2F; &#x2F; &#x2F; ___&#x2F;   &quot; -->
+<!-- &quot;   &#x2F; ____&#x2F; &#x2F;_&#x2F; &#x2F; &#x2F;_&#x2F; &#x2F;  __&#x2F;_____&#x2F; &#x2F; &#x2F; &#x2F;       &quot; -->
+<!-- &quot;  &#x2F;_&#x2F;    __,_&#x2F;__, &#x2F;___&#x2F;     &#x2F;_&#x2F; &#x2F;_&#x2F;        &quot; -->
+<!-- &quot;              &#x2F;____&#x2F;                          &quot; -->
+<!-- &quot;                                              &quot; -->
+<br/><br/>
+  <p>
+    <span>hostapd-config</span>
+    <span>hostapd配置文件</span>
+    <span>hostapd-config</span>
+  </p>
+<b>什么是 hostapd</b>
+    <section style="margin-left:8%;">
+    <strong>hostapd</strong>
+    - 能夠使得無線網卡切換為master模式，模擬AP(通常可以認為是路由器)功能，也就是我們說的軟AP(Soft AP)。
+<br/><br/>
+    Hostapd的功能就是作為AP的認證服務器，負責控制管理stations(通常可以認為帶無線網卡的PC)的接入和認證。
+<br/><br/>
+    通過Hostapd可以將無線網卡切換為AP&#x2F;Master模式，通過修改配置文件，可以建立一個開放式的(不加密)的，WEP，WPA或WPA2的無線網絡。
+<br/><br/>
+    並且通過修改配置文件可以設置無線網卡的各種參數，包括頻率，信號，beacon包時間間隔，是否發送beacon包，如果響應探針請求等等。還可以設置mac地址過濾條件等。
+<br/><br/>
+    </section>
+<b>配置文件</b>
+    <section style="margin-left:8%;">
+    &#x2F;etc&#x2F;hostapd&#x2F;hostapd.conf
+<br/><br/>
+    </section>
+<b>WiFi 工作模式</b>
+    <section style="margin-left:8%;">
+    <b>工作模式</b>
+<pre>
+    Master(AP)       成为无线接入点提供无线接入服务
+    Managed(STA)     作为客户端连接其他无线接入点
+    Monitor          监听附近所有无线流量
+    Ad-hoc           多台计算机直接相连
+</pre>
+<br/><br/>
+    </section>
+<b>配置属性</b>
+    <section style="margin-left:8%;">
+    <strong>inteface</strong>
+<pre>
+    interface=wlp1s0
+</pre>
+    <strong>bridge</strong>
+        <section style="margin-left:4%">
+<br/><br/>
+        </section>
+    <strong>driver</strong>
+<pre>
+    Driver interface type (hostap&#x2F;wired&#x2F;none&#x2F;nl80211&#x2F;bsd);
+    # default: hostap). nl80211 is used with all Linux mac80211 drivers.
+    # Use driver=none if building hostapd as a standalone RADIUS server that does
+    # not control any wireless&#x2F;wired driver.
+</pre>
+<br/><br/>
+    <strong>country_code</strong>
+        <section style="margin-left:4%">
+<br/><br/>
+        </section>
+    <strong>hw_mode</strong>
+<pre>
+    a = IEEE 802.11a (5 GHz), 
+    b = IEEE 802.11b (2.4 GHz),
+    g = IEEE 802.11g (2.4 GHz), 
+    ad = IEEE 802.11ad (60 GHz); 
+    a&#x2F;g options are usedwith IEEE 802.11n (HT)
+</pre>
+<br/><br/>
+    <strong>channel</strong>
+<pre>
+    default: 0, i.e., not set
+</pre>
+    <strong>wpa</strong>
+<pre>
+    0  该选项关闭无线安全，将处于无加密状态
+    1  
+    2 
+    For WPA-PSK, 
+    either wpa_psk or wpa_passphrase must be set and wpa_key_mgmt must include WPA-PSK.
+</pre>
+    <strong>wpa_psk</strong>
+<pre>
+    a 256-bit secret in hex format (64 hex digits), 
+    or as an ASCII passphrase (8..63 characters)
+    that will be converted to PSK
+
+    # wpa_psk (dot11RSNAConfigPSKValue)
+    # wpa_passphrase (dot11RSNAConfigPSKPassPhrase)
+    # wpa_psk=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+    # wpa_passphrase=secret passphrase
+    wpa_passphrase=12345678
+</pre>
+    <strong>wpa_key_mgmt</strong>
+<pre>
+    # WPA-PSK = WPA-Personal &#x2F; WPA2-Personal
+    # WPA-PSK-SHA256 = WPA2-Personal using SHA256
+    # WPA-EAP = WPA-Enterprise &#x2F; WPA2-Enterprise
+    # WPA-EAP-SHA256 = WPA2-Enterprise using SHA256
+    # SAE = SAE (WPA3-Personal)
+    # WPA-EAP-SUITE-B-192 = WPA3-Enterprise with 192-bit security&#x2F;CNSA suite
+    # FT-PSK = FT with passphrase&#x2F;PSK
+    # FT-EAP = FT with EAP
+    # FT-EAP-SHA384 = FT with EAP using SHA384
+    # FT-SAE = FT with SAE
+    # FILS-SHA256 = Fast Initial Link Setup with SHA256
+    # FILS-SHA384 = Fast Initial Link Setup with SHA384
+    # FT-FILS-SHA256 = FT and Fast Initial Link Setup with SHA256
+    # FT-FILS-SHA384 = FT and Fast Initial Link Setup with SHA384
+    # OWE = Opportunistic Wireless Encryption (a.k.a. Enhanced Open)
+    # DPP = Device Provisioning Protocol
+    # OSEN = Hotspot 2.0 online signup with encryption
+
+    e.g: 
+        wpa_key_mgmt=WPA-PSK WPA-EAP
+</pre>
+    <strong>wpa_psk_radius</strong>
+        <section style="margin-left:4%">
+<br/><br/>
+        </section>
+    <strong>ssid</strong>
+        <section style="margin-left:4%">
+<br/><br/>
+        </section>
+    <strong>bssid</strong>
+        <section style="margin-left:4%">
+<br/><br/>
+        </section>
+<br/><br/>
+    </section>
+<b>Examples</b>
+    <section style="margin-left:8%;">
+<br/><br/>
+    <strong>1.创建不需要密码的AP</strong>
+<pre>
+    ctrl_interface=&#x2F;var&#x2F;run&#x2F;hostapd
+    interface=wlan0
+    driver=rtl871xdrv
+    ssid=AP117081234000009
+    channel=8
+    macaddr_acl=0
+    auth_algs=1
+    ignore_broadcast_ssid=0
+</pre>
+<br/><br/>
+    <strong>2.创建wep加密类型的AP</strong>
+<pre>
+    ctrl_interface=&#x2F;var&#x2F;run&#x2F;hostapd
+    interface=wlan0
+    driver=rtl871xdrv
+    ssid=AP117081234000009
+    channel=8
+    macaddr_acl=0
+    auth_algs=2
+    ignore_broadcast_ssid=0
+    wep_key0=1234567891200
+    wep_default_key=0
+</pre>
+<br/><br/>
+    <strong>3.创建 wpa psk 加密类型的AP</strong>
+<pre>
+    ctrl_interface=&#x2F;var&#x2F;run&#x2F;hostapd
+    interface=wlan0
+    driver=nl80211
+    ssid=AP117081234000009
+    channel=1
+    macaddr_acl=0
+    auth_algs=1
+    ieee80211n=1
+    hw_mode=g
+    ignore_broadcast_ssid=0
+    wpa=2
+    wpa_passphrase=123456789
+    wpa_key_mgmt=WPA-PSK
+    wpa_pairwise=TKIP
+    rsn_pairwise=CCMP
+</pre>
+<br/><br/>
+    <strong>ubuntu@ubuntu-service:~$ cat &#x2F;etc&#x2F;hostapd&#x2F;hostapd.conf</strong>
+<pre>
+    interface=wlp1s0
+    ssid=AAAA
+    channel=1
+    hw_mode=a
+    wpa_passphrase=11111111
+    wpa_key_mgmt=WPA2-PSK
+</pre>
+<br/><br/>
+    <strong>ubuntu@ubuntu-service:~$ cat local.conf</strong>
+<pre>
+    interface=wlp1s0
+    driver=nl80211
+    ssid=fuck
+    hw_mode=g
+    channel=6
+    macaddr_acl=0
+    ignore_broadcast_ssid=0
+    auth_algs=1
+    wpa=2
+    wpa_passphrase=123123123
+    wpa_key_mgmt=WPA-PSK WPA-PSK-SHA256
+</pre>
+<br/><br/>
+    </section>
+</section>
+
+            </section>
+            <style>
+                p:first-of-type{
+                    margin-bottom: 15px;
+                    text-align: center;
+                }
+                p:first-of-type span:first-child {
+                    float: left;
+                }
+                p:first-of-type span:last-child  {
+                    float: right;
+                }
+            </style>
+        </body>
+        </html>
+        

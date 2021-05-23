@@ -1,0 +1,260 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+        </head>
+        <body>
+            <section>
+                <!-- &quot;      ____                       ______       &quot; -->
+<!-- &quot;     &#x2F; __ ____ _____ ____      &#x2F;_  __&#x2F;____   &quot; -->
+<!-- &quot;    &#x2F; &#x2F;_&#x2F; &#x2F; __ `&#x2F; __ `&#x2F; _ ______&#x2F; &#x2F; &#x2F; ___&#x2F;   &quot; -->
+<!-- &quot;   &#x2F; ____&#x2F; &#x2F;_&#x2F; &#x2F; &#x2F;_&#x2F; &#x2F;  __&#x2F;_____&#x2F; &#x2F; &#x2F; &#x2F;       &quot; -->
+<!-- &quot;  &#x2F;_&#x2F;    __,_&#x2F;__, &#x2F;___&#x2F;     &#x2F;_&#x2F; &#x2F;_&#x2F;        &quot; -->
+<!-- &quot;              &#x2F;____&#x2F;                          &quot; -->
+<!-- &quot;                                              &quot; -->
+<br/><br/>
+  <p>
+    <span>Cargo</span>
+    <span>Rust的构建工具和包管理器</span>
+    <span>Cargo</span>
+  </p>
+<b>NAME</b>
+    <section style="margin-left:8%;">
+    <strong>Cargo</strong>
+    - Rust 的构建工具和包管理器
+<br/><br/>
+    您在安装 Rustup 时，也会安装 Rust 构建工具和包管理器的最新稳定版，即 Cargo。
+<br/><br/>
+    Cargo 可以做很多事情：
+<pre>
+    cargo build 可以构建项目
+    cargo run 可以运行项目
+    cargo test 可以测试项目
+    cargo doc 可以为项目构建文档
+    cargo publish 可以将库发布到 crates.io。
+</pre>
+<br/><br/>
+    </section>
+<b>Rust crates.io 索引镜像使用帮助</b>
+    <section style="margin-left:8%;">
+    编辑 ~&#x2F;.cargo&#x2F;config 文件，添加以下内容：
+<pre>
+    [source.crates-io]
+    replace-with = &#x27;tuna&#x27;
+
+    [source.tuna]
+    registry = &quot;https:&#x2F;&#x2F;mirrors.bfsu.edu.cn&#x2F;git&#x2F;crates.io-index.git&quot;
+</pre>
+    该镜像可加快 cargo 读取软件包索引的速度。
+<br/><br/>
+<br/><br/>
+    </section>
+<b>基本使用</b>
+    <section style="margin-left:8%;">
+    <b>要检查您是否安装了 Rust 和 Cargo，可以在终端中运行：</b>
+        <section style="margin-left:8%;">
+        <strong>cargo --version</strong>
+            <section style="margin-left:4%">
+        cargo 1.51.0 (43b129a20 2021-03-16)
+            </section>
+<br/><br/>
+<br/>        </section>
+    </section>
+<b>其它工具</b>
+    <section style="margin-left:8%;">
+    Rust 支持多种编辑器：
+<pre>
+    VS CODE
+    SUBLIME TEXT 3
+    ATOM
+    INTELLIJ IDEA
+    ECLIPSE
+    VIM
+    EMACS
+    GEAN
+</pre>
+<br/><br/>
+    </section>
+<b>创建新项目</b>
+    <section style="margin-left:8%;">
+    我们将在新的 Rust 开发环境中编写一个小应用。首先用 Cargo 创建一个新项目。在您的终端中执行：
+<br/><br/>
+    <strong>cargo new hello-rust</strong>
+        <section style="margin-left:4%">
+    这会生成一个名为 hello-rust 的新目录，其中包含以下文件：
+<pre>
+    hello-rust
+    |- Cargo.toml
+    |- src
+    |- main.rs        
+</pre>
+        </section>
+        <section style="margin-left:4%">
+    <strong><i>Cargo.toml</i></strong>
+        <section style="margin-left:4%">
+    为 Rust 的清单文件。其中包含了项目的元数据和依赖库。
+        </section>
+    <strong><i>src&#x2F;main.rs</i></strong>
+        <section style="margin-left:4%">
+    为编写应用代码的地方。
+        </section>
+        </section>
+<br/><br/>
+    <strong>cargo new</strong>
+        <section style="margin-left:4%">
+    会生成一个新的“Hello, world!”项目！我们可以进入新创建的目录中，执行下面的命令来运行此程序：
+        </section>
+<br/><br/>
+    <strong>cargo run</strong>
+        <section style="margin-left:4%">
+    您应该会在终端中看到如下内容：
+<pre>
+    $ cargo run
+    Compiling hello-rust v0.1.0 (&#x2F;Users&#x2F;ag_dubs&#x2F;rust&#x2F;hello-rust)
+        Finished dev [unoptimized + debuginfo] target(s) in 1.34s
+        Running `target&#x2F;debug&#x2F;hello-rust`
+    Hello, world!
+</pre>
+        </section>
+<br/><br/>
+<br/><br/>
+    </section>
+<b>添加依赖</b>
+    <section style="margin-left:8%;">
+    现在我们来为应用添加依赖。您可以在 crates.io，即 Rust 包的仓库中找到所有类别的库。
+    在 Rust 中，我们通常把包称作“crates”。
+<br/><br/>
+    在本项目中，我们使用了名为 ferris-says 的库。
+<br/><br/>
+    我们在 Cargo.toml 文件中添加以下信息（从 crate 页面上获取）：
+<br/><br/>
+<pre>
+    [dependencies]
+    ferris-says = &quot;0.2&quot;
+</pre>
+<br/><br/>
+    接着运行：
+    <b>cargo build</b>
+<br/><br/>
+    …之后 Cargo 就会安装该依赖。
+<br/><br/>
+    运行此命令会创建一个新文件 Cargo.lock，该文件记录了本地所用依赖库的精确版本。
+<br/><br/>
+    要使用该依赖库，我们可以打开 main.rs，删除其中所有的内容（它不过是个示例而已），然后在其中添加下面这行代码：
+<br/><br/>
+<pre>
+    use ferris_says::say;
+</pre>
+<br/><br/>
+    这样我们就可以使用 ferris-says crate 中导出的 say 函数了。
+<br/><br/>
+<br/><br/>
+    </section>
+<b>一个 Rust 小应用</b>
+    <section style="margin-left:8%;">
+    现在我们用新的依赖库编写一个小应用。在 main.rs 中添加以下代码：
+<pre>
+    use ferris_says::say; &#x2F;&#x2F; from the previous step
+    use std::io::{stdout, BufWriter};
+
+    fn main() {
+        let stdout = stdout();
+        let message = String::from(&quot;Hello fellow Rustaceans!&quot;);
+        let width = message.chars().count();
+
+        let mut writer = BufWriter::new(stdout.lock());
+        say(message.as_bytes(), width, &amp;mut writer).unwrap();
+    }
+</pre>
+<br/><br/>
+    保存完毕后，我们可以输入以下命令来运行此应用：
+<br/><br/>
+    cargo run
+<br/><br/>
+    如果一切正确，您会看到该应用将以下内容打印到了屏幕上：
+<br/><br/>
+<pre>
+    ----------------------------
+    | Hello fellow Rustaceans! |
+    ----------------------------
+                      
+                       
+                     _~^~^~_
+                 ) &#x2F;  o o   (&#x2F;
+                   &#x27;_   -   _&#x27;
+                   &#x2F; &#x27;-----&#x27; 
+</pre>
+<br/><br/>
+<br/><br/>
+    </section>
+<b>对于VSCode 插件 Rust的片段</b>
+    <section style="margin-left:8%;">
+    <strong>extern crate</strong>
+<pre>
+    extern crate name;
+</pre>
+    <strong>for</strong>
+<pre>
+    for elem in iter {
+
+    }
+</pre>
+    <strong>macro_rules</strong>
+<pre>
+   macro_rules!  {
+       () =&gt; {
+                    
+       };
+   }
+</pre>
+    <strong>if let</strong>
+<pre>
+    if let pattern = value {
+                
+    }
+</pre>
+    <strong>thread_spawn &#x2F; spawn</strong>
+<pre>
+    std::thread::spawn(move || {
+                
+    })
+</pre>
+    <strong>derive</strong>
+<pre>
+    #[derive()]
+</pre>
+    <strong>cfg</strong>
+<pre>
+    #[cfg()]
+</pre>
+    <strong>test</strong>
+<pre>
+    #[test]
+    fn name() {
+        unimplemented!();
+    }
+</pre>
+<br/><br/>
+    </section>
+</section>
+
+            </section>
+            <style>
+                p:first-of-type{
+                    margin-bottom: 15px;
+                    text-align: center;
+                }
+                p:first-of-type span:first-child {
+                    float: left;
+                }
+                p:first-of-type span:last-child  {
+                    float: right;
+                }
+            </style>
+        </body>
+        </html>
+        

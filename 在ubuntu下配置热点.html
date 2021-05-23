@@ -1,0 +1,261 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+        </head>
+        <body>
+            <section>
+                <!-- &quot;      ____                       ______       &quot; -->
+<!-- &quot;     &#x2F; __ ____ _____ ____      &#x2F;_  __&#x2F;____   &quot; -->
+<!-- &quot;    &#x2F; &#x2F;_&#x2F; &#x2F; __ `&#x2F; __ `&#x2F; _ ______&#x2F; &#x2F; &#x2F; ___&#x2F;   &quot; -->
+<!-- &quot;   &#x2F; ____&#x2F; &#x2F;_&#x2F; &#x2F; &#x2F;_&#x2F; &#x2F;  __&#x2F;_____&#x2F; &#x2F; &#x2F; &#x2F;       &quot; -->
+<!-- &quot;  &#x2F;_&#x2F;    __,_&#x2F;__, &#x2F;___&#x2F;     &#x2F;_&#x2F; &#x2F;_&#x2F;        &quot; -->
+<!-- &quot;              &#x2F;____&#x2F;                          &quot; -->
+<!-- &quot;                                              &quot; -->
+<br/><br/>
+  <p>
+    <span>Ubuntu</span>
+    <span>在Ubuntu下配置热点</span>
+    <span>Ubuntu</span>
+  </p>
+<b>NAME</b>
+    <section style="margin-left:8%;">
+    <strong>Ubuntu</strong>
+    - 记录在Ubuntu下配置热点的一个过程，
+<br/><br/>
+    usb0网卡为手机提供的usb共享上网
+<br/><br/>
+    wlxe84e06355627是wifi模块名称
+<br/><br/>
+    </section>
+<b>信息摘要</b>
+    <section style="margin-left:8%;">
+    <strong>ifconfig</strong>
+<pre>
+eth0: flags=4099&lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
+        ether b8:27:eb:aa:5c:cd  txqueuelen 1000  (Ethernet)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 2486  bytes 179671 (179.6 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 2486  bytes 179671 (179.6 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+usb0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.42.52  netmask 255.255.255.0  broadcast 192.168.42.255
+        inet6 fe80::a468:59ff:fee9:4617  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether a6:68:59:e9:46:17  txqueuelen 1000  (Ethernet)
+        RX packets 27596  bytes 31101978 (31.1 MB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 20042  bytes 3582683 (3.5 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+wlxe84e06355627: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.100.1  netmask 255.255.255.0  broadcast 192.168.100.255
+        inet6 fe80::ea4e:6ff:fe35:5627  prefixlen 64  scopeid 0x20&lt;link&gt;
+        ether e8:4e:06:35:56:27  txqueuelen 1000  (Ethernet)
+        RX packets 19128  bytes 2679730 (2.6 MB)
+        RX errors 0  dropped 3  overruns 0  frame 0
+        TX packets 26759  bytes 31636538 (31.6 MB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</pre>
+<br/><br/>
+    </section>
+<b>对插入式wifi模块进行配置 (hostapd + dnsmasq + iptables)</b>
+    <section style="margin-left:8%;">
+    <b>配置 hostapd</b>
+        <section style="margin-left:8%;">
+        <strong>临时 hostapd 配置文件</strong>
+            <section style="margin-left:4%">
+        如
+            </section>
+<pre>
+    interface=wlxe84e06355627
+    driver=nl80211
+    ssid=pi2
+    hw_mode=g
+    channel=6
+    wpa=0
+    wpa_passphrase=123123123
+    wpa_key_mgmt=WPA-PSK
+</pre>
+        <br/></section>
+    <b>配置 dnsmasq</b>
+        <section style="margin-left:8%;">
+        - 使用dnsmasq为连接上该网上的无线设备分配ip和管理dns
+<br/><br/>
+        <strong>安装 <i>dnsmasq</i></strong>
+            <section style="margin-left:4%">
+<pre>
+    apt install dnsmasq
+</pre>
+        <b>启动或重启 dnsmasq 提示端口 53 被占用的解决方案</b>
+            <section style="margin-left:4%">
+        开启热点需要使用 dnsmasq 服务，而这个服务使用 53 端口。但是 53 端口可能被占用，此时 dnsmasq 就会报错
+<br/><br/>
+        <b>查看占用端口情况</b>
+<pre>
+    lsof -i :53
+</pre>
+        <b>停用 systemd-resolved 服务</b>
+<pre>
+    sudo systemctl stop systemd-resolved
+</pre>
+        编辑 &#x2F;etc&#x2F;systemd&#x2F;resolved.conf 文件
+<pre>
+    sudo vim &#x2F;etc&#x2F;systemd&#x2F;resolved.conf
+</pre>
+        修改文件中，[Resolve] 部分。
+<pre>
+    [Resolve]
+    #DNS=
+    #FallbackDNS=
+    #Domains=
+    #DNSSEC=no
+    #DNSOverTLS=no
+    #MulticastDNS=no
+    #LLMNR=no
+    #Cache=no-negative
+    DNSStubListener=no   # 取消注释, yes 改成 no
+    #ReadEtcHosts=yes
+    #ResolveUnicastSingleLabel=no
+</pre>
+        <b>重启 systemd-resolved 服务</b>
+<pre>
+    sudo systemctl start systemd-resolved
+</pre>
+            </section>
+        link: https:&#x2F;&#x2F;www.cnblogs.com&#x2F;Yogile&#x2F;p&#x2F;12779744.html
+            </section>
+<br/><br/>
+        <strong>配置文件 &#x2F;etc&#x2F;dnsmasq.conf</strong>
+            <section style="margin-left:4%">
+        配置 dnsmasq 监听的接口，该接口的IP、dhcp地址的范围、租期长短、dns等。
+<pre>
+    interface=wlxe84e06355627
+    listen-address=192.168.100.1
+    dhcp-range=192.168.100.50,192.168.100.100,12h
+    server=&#x2F;google&#x2F;8.8.8.8
+</pre>
+        如果想使用dhcpd也可以，这里省略dhcpd.conf的配置
+            </section>
+<br/><br/>
+        <br/></section>
+    <b>配置无线接入点</b>
+        <section style="margin-left:8%;">
+        <strong>ifconfig 配置(指定)网卡ip地址</strong>
+<pre>
+    sudo ifconfig wlxe84e06355627 192.168.100.1 netmask 255.255.255.0  up 
+</pre>
+        <br/></section>
+    <b>开启主机的路由转发</b>
+        <section style="margin-left:8%;">
+        <strong>临时方案：</strong>
+            <section style="margin-left:4%">
+        该配置为立即生效，但重启系统后就会失效
+<pre>
+    echo 1 &gt;&#x2F;proc&#x2F;sys&#x2F;net&#x2F;ipv4&#x2F;ip_forward
+</pre>
+            </section>
+        <strong>永久方案</strong>
+            <section style="margin-left:4%">
+        修改 &#x2F;etc&#x2F;sysctl.conf 文件
+<pre>
+    net.ipv4.ip_forward=1
+</pre>
+        执行 sysctl -p 或 sysctl --load &#x2F;etc&#x2F;sysctl.conf 生效
+            </section>
+        <br/></section>
+    <b>准备共享上网</b>
+        <section style="margin-left:8%;">
+        通过有线网usb0共享上网的方法有两种：一种是桥接模式，一种是nat模式
+<br/><br/>
+        <strong>1.桥接模式</strong>
+            <section style="margin-left:4%">
+        桥接模式只需要 hostapd 即可，该桥接模式分配IP工作为上层路由
+            </section>
+        <strong>2.nat模式</strong>
+            <section style="margin-left:4%">
+        nat 模式为将出去本机路由前的数据定向指定的网络接口
+<pre>
+    iptables -A FORWARD -i wlan0 -o eth0 -s 192.168.100.0&#x2F;24 -m state --state NEW -j ACCEPT
+    iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j ACCEPT
+    iptables -t nat -A POSTROUTING -o usb0 -j MASQUERADE
+</pre>
+<br/><br/>
+            </section>
+<br/><br/>
+<br/>        </section>
+    </section>
+<b>对插入式wifi模块进行配置 (hostapd + brctl 桥接模式)</b>
+    <section style="margin-left:8%;">
+    <b>hostapd 配置(略)</b>
+        <section style="margin-left:8%;">
+<br/><br/>
+        <br/></section>
+    <b>brctl 桥接工具</b>
+        <section style="margin-left:8%;">
+        <strong>安装 brctl</strong>
+<pre>
+    sudo apt-get install bridge-utils
+</pre>
+        <strong>建立网桥: br0</strong>
+<pre>
+    sudo brctl addbr br0
+</pre>
+        <strong>配置网桥: 意为复制网卡状态</strong>
+<pre>
+    sudo ifconfig br0 192.168.2.236 netmask 255.255.255.0
+    sudo route add default gw 192.168.2.254
+</pre>
+        <strong>将网卡设备加入网桥</strong>
+<pre>
+    sudo brctl addif br0 usb0
+    sudo brctl addif br0 wlxe84e06355627
+</pre>
+        该AP不提供IP分配，此项配置，为接入 wlxe84e06355627 的无线设备将通过 usb0 将上层路由获取IP地址
+<br/><br/>
+<br/>        </section>
+    </section>
+<b>ubuntu 部分内容</b>
+    <section style="margin-left:8%;">
+    <strong>关于dhcpd自动获取的问题</strong>
+        <section style="margin-left:4%">
+    执行 sudo dhclient
+<pre>
+    sudo dhclient
+</pre>
+        </section>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+    </section>
+</section>
+
+            </section>
+            <style>
+                p:first-of-type{
+                    margin-bottom: 15px;
+                    text-align: center;
+                }
+                p:first-of-type span:first-child {
+                    float: left;
+                }
+                p:first-of-type span:last-child  {
+                    float: right;
+                }
+            </style>
+        </body>
+        </html>
+        
