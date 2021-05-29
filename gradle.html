@@ -1,0 +1,407 @@
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Document</title>
+        </head>
+        <body>
+            <section>
+                <!-- &quot;      ____                       ______       &quot; -->
+<!-- &quot;     &#x2F; __ ____ _____ ____      &#x2F;_  __&#x2F;____   &quot; -->
+<!-- &quot;    &#x2F; &#x2F;_&#x2F; &#x2F; __ `&#x2F; __ `&#x2F; _ ______&#x2F; &#x2F; &#x2F; ___&#x2F;   &quot; -->
+<!-- &quot;   &#x2F; ____&#x2F; &#x2F;_&#x2F; &#x2F; &#x2F;_&#x2F; &#x2F;  __&#x2F;_____&#x2F; &#x2F; &#x2F; &#x2F;       &quot; -->
+<!-- &quot;  &#x2F;_&#x2F;    __,_&#x2F;__, &#x2F;___&#x2F;     &#x2F;_&#x2F; &#x2F;_&#x2F;        &quot; -->
+<!-- &quot;              &#x2F;____&#x2F;                          &quot; -->
+<!-- &quot;                                              &quot; -->
+<br/><br/>
+  <p>
+    <span>gradle</span>
+    <span>Gradle说明</span>
+    <span>gradle</span>
+  </p>
+<b>NAME</b>
+    <section style="margin-left:8%;">
+    <strong>Gradle</strong>
+    -  Gradle 是专注于灵活性和性能的开源构建自动化工具。Gradle 构建脚本是使用 Groovy 或 Kotlin DSL 编写的。
+<br/><br/>
+    <strong>为什么要使用 Gradle？</strong>
+        <section style="margin-left:4%">
+    自动化构建
+        <section style="margin-left:4%">
+    我们在写 Java 的时候，如果没有构建工具，我们需要在控制台，通过javac先将 Java 文件编译为 class 文件，然后再用jar命令将 class 文件打包为 jar 包。有了自动化构建工具只需要一个命令或是点一个按钮就可以打出 jar包。试想下如果 Android 我们不用 Gradle 命令或是按运行按钮打包。那么我们得执行多少命令才能最终打出一个 apk 包。所以自动化构建帮我们做了很多事。
+        </section>
+    Gradle 的集各家之所长
+        <section style="margin-left:4%">
+    前面说到 Gradle 是一个自动化构建工具，那么我们下面对比一同类构建工具和 Gradle 相比的优缺点。
+<br/><br/>
+    1.Apache Ant
+        <section style="margin-left:4%">
+    Ant 全称是Another Neat Tool，它是由 James Duncan Davidson 开发的，最初是用来构建 Tomcat 的。发布于 2000 年，它的核心代码是由 Java 编写的因此具有平台无关性。构建脚本是 XML(build.xml)。在早期用 Eclipse 开发的 Android 的时候，构建工具就是 Ant。它的构建脚本有三个节点 project、target、task。
+<br/><br/>
+    但是它有以下缺点：
+<pre>
+    无法实时获取运行信息；
+    在项目规范上规范性不足，灵活性太高，对 build.xml 没有约定规范；
+    XML 作为构建脚本，如果项目构建较为复杂，build.xml 就会很长，难以维护。
+</pre>
+        </section>
+    2.Apache Maven
+        <section style="margin-left:4%">
+    为了解决开发人员在使用 Ant 时面临的问题，Apache 在 2004 年发布了 Maven。Maven 除了项目构建功能外，还提供了高级项目管理工具。最初在 Jakata Turbine 项目中用来简化构建过程。Maven 和 Ant 针对项目构建的两个不同方面解决问题，Ant 是为 Java 项目提供平台构建任务，而 Maven 本身描述项目的高级方面。
+<br/><br/>
+    Maven 同样有以下缺点：
+<pre>
+    XML 还是会很长： 
+        它还是以 XML 作为构建脚本，如果项目复杂，XML 还是会很长，但是较 Ant 比较好维护；
+    缺乏灵活性： 
+        规范性太强，缺乏灵活性，会写很多冗余配置；
+    链接仓库不方便： 
+        链接国外 Maven 仓库需要翻墙，要切换至国内阿里云的 Maven 仓库。
+</pre>
+        </section>
+    总而言之，我们来总结一下：
+        <section style="margin-left:4%">
+    Gradle 它是一个构建工具，采用 Groovy 或是 Kotlin 语言编写，汲取了 Ant 和 Maven 的优点，但是相比较于 Ant 和 Maven，Gradle 更加强大，高度可定制，构建更加快速。
+<br/><br/>
+    目前我们开发中，Java 项目一般都用 IntelliJ IDEA，它自带的构建工具是 Maven，也可以使用 Ant。Android 项目默认构建工具一般都是使用 Gradle 的，也是 Google 推荐的 Android 构建工具。我觉得后期 Java 也有可能会使用 Gradle 构建工具。因为 Gradle 它集各家之所长，既吸收了 Maven 的规范化和仓库概念，又吸收了 Ant 的 task 思想。
+        </section>
+        </section>
+<br/><br/>
+        </section>
+<br/><br/>
+<br/><br/>
+    </section>
+<b>SYNOPSIS</b>
+    <section style="margin-left:8%;">
+    使用帮助
+<pre>
+    .&#x2F;gradlew -?
+    .&#x2F;gradlew -h
+    .&#x2F;gradlew -help
+</pre>
+    查看版本
+<pre>
+    gradle -version
+</pre>
+    初始化项目
+<pre>
+    gradle init 
+            
+    初始化java项目
+        gradle init --type java-application
+    初始化java library项目
+        gradle init --type java-library
+</pre>
+    配置wrapper 
+<pre>
+    .&#x2F;gradlew wrapper [—gradle-version=&lt;version&gt;] [—gradle-distribution-url=&lt;url&gt;] 
+</pre>
+    查看所有可执行Tasks
+        <section style="margin-left:4%">
+<pre>
+    .&#x2F;gradlew tasks
+</pre>
+    我们看到这个很多，其实该命令输出的不是所有的命令，要查看项目构建的所有命令，我们需要执行的时候 后面加上 –all如下：
+<pre>
+    gradle task -all
+</pre>
+        </section>
+    查看项目的任务依赖
+        <section style="margin-left:4%">
+    要查看项目的依赖关系图，我们可以运行以下命令：
+<pre>
+    gradle dependencies
+</pre>
+    查看 app 模块的依赖
+<pre>
+    gradle app:dependencies
+</pre>
+        </section>
+    Gradle Help任务
+        <section style="margin-left:4%">
+    Gradle内置了一个help task,可以让我们了解每一个Task的使用帮助，用法.&#x2F;gradlew help —task ,如下：
+<pre>
+   .&#x2F;gradlew help --task tasks
+</pre>
+        </section>
+    强制刷新依赖
+        <section style="margin-left:4%">
+    在很多情况下我们需要强制属性依赖的第三方库，可使用如下命令：
+<pre>
+    .&#x2F;gradlew --refresh-dependencies assemble
+</pre>
+        </section>
+    多任务调用
+        <section style="margin-left:4%">
+    在我们执行多任务时，例如执行jar之前先clean，只需按顺序空格分开，如下：
+<pre>
+    .&#x2F;gradlew clean jar # 有更多任务时可继续添加
+</pre>
+    通过任务名缩写执行
+        <section style="margin-left:4%">
+    Gradle 提供了基于驼峰命名的缩写调用，如doCheck任务，可执行如下命令：
+<pre>
+    .&#x2F;gradlew doCheck
+    .&#x2F;gradlew dc # 两者作用等同
+</pre>
+        </section>
+        </section>
+    排除某些任务
+        <section style="margin-left:4%">
+    我们可以用-x选项去排除一个任务，我们在build.gradle中定义的task mTest,我们如果想要跳过mTest，可以用以下的命令：
+<pre>
+    &#x2F;&#x2F; buid.gradle中定义的Task，mTest
+    task mTest{
+        doLast{
+            println &quot;这是测试Task&quot;
+        }
+    }
+    &#x2F;&#x2F; 执行命令排除
+    gradle clean build -x mTest
+</pre>
+        </section>
+    分析项目构建
+        <section style="margin-left:4%">
+    在 Gradle 中内置了对项目分析的支持，我们平时如果遇到构建的性能问题，比如我们构建时间长，想要查看每个任务构建时间，我们可以使用这个命令[--profile build]来生成项目的配置文件报告，报告会以文件形式生成在 build&#x2F;reports&#x2F; 目录下，如下所示：
+<pre>
+    gradle --profile build
+
+</pre>
+    我们看到控制台它会输出已生成 HTML 格式和 XML 格式的文档。我们可以看下 reports 文件夹
+        </section>
+<br/><br/>
+    使用 Gradle 命令来打 Android 包
+        <section style="margin-left:4%">
+    我们在开发中经常是点击 run 按钮来执行编译并打包的，这样打出来的包是 Debug 包，供我们开发者来开发调试的，但是我们上线或是提交测试的时候我们需要提交的是 Release 包。下面我们就来看下我们如何使用 Gradle 命令来打包。
+<br/><br/>
+<pre>
+    &#x2F;&#x2F; 编译并打Debug包
+    $ gradle assembleDebug
+    &#x2F;&#x2F; 编译app module 并打Debug包
+    $ gradlew install app:assembleDebug
+    &#x2F;&#x2F; 编译并打Release的包
+    # gradle assembleRelease
+    &#x2F;&#x2F; 编译并打Release包并安装
+    $ gradle installRelease
+    &#x2F;&#x2F; 卸载Release包
+    $ gradle uninstallRelease
+</pre>
+        </section>
+<br/><br/>
+    exlude 排除依赖包中的部分类
+        <section style="margin-left:4%">
+    我们开发中，可能大家或多或少都会遇到 jar 包冲突的问题，有时候两个 jar 包不同，但是里面有两个类的包名路径是一摸一样的。这样我们就需要排除掉某个包中的重复的类，这时候就需要用的 exclude 命令，如下我们就以排除这个hibernate包中的类为例子。
+<pre>
+    compile(&#x27;org.hibernate:hibernate:3.1&#x27;) {
+        &#x2F;&#x2F;以artifact name来排除出
+        exclude module: &#x27;cglib&#x27;
+        &#x2F;&#x2F;通过group name来排除
+        exclude group: &#x27;org.jmock&#x27;
+    }
+</pre>
+    个人说明：意为当前的项目依赖过该cglib特定版本，为避免冲突，将可能含有该依赖的hibernate剔除间接依赖依项
+        </section>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+    </section>
+<b>Gradle 基础</b>
+    <section style="margin-left:8%;">
+    <b>Gradle基础概念</b>
+        <section style="margin-left:8%;">
+        <strong>Distribution</strong>
+        - Gradle 发行版本
+            <section style="margin-left:4%">
+<pre>
+    https:&#x2F;&#x2F;services.gradle.org&#x2F;distributions&#x2F;
+
+    services.gradle.org&#x2F; distributions&#x2F;
+    gradle-7.0.2-wrapper.jar.sha256 14-May-2021 14:12 +0200 64.00B
+    gradle-7.0.2-docs.zip           14-May-2021 14:12 +0200 36.71M
+    gradle-7.0.2-docs.zip.sha256    14-May-2021 14:12 +0200 64.00B
+    gradle-7.0.2-src.zip            14-May-2021 14:12 +0200 39.45M
+    gradle-7.0.2-src.zip.sha256     14-May-2021 14:12 +0200 64.00B
+    gradle-7.0.2-bin.zip            14-May-2021 14:12 +0200 106.87M
+    gradle-7.0.2-bin.zip.sha256     14-May-2021 14:12 +0200 64.00B
+    gradle-7.0.2-all.zip            14-May-2021 14:12 +0200 147.19M
+    ....
+
+    src  为当前版本的源代码打包，无法运行
+    bin  可运行的，并且不包含多余的东西
+    docs 仅含用户文档
+    all  包含例如 examples(例子), 用户文档
+
+</pre>
+        以上链接提供所有gradle发行版本的下载链接
+            </section>
+<br/><br/>
+        <strong>Wrapper</strong>
+        - 对Gradle的一层包装,便于在团队开发过程中统一Gradle构建的版本
+            <section style="margin-left:4%">
+        在不同Gradle版本环境之下，确保将使用指定版本构建项目。启动Gradle时会检查Gradle有没有被下载关联，若没有就会从配置的地址下载并运行构建。所有版本将会保存在 .gradle&#x2F;wrapper&#x2F;dists&#x2F; 目录。
+<br/><br/>
+        项目配置解析 <b>gradle</b> 目录
+<pre>
+    .
+    ├── gradle
+    │   └── wrapper
+    │       ├── gradle-wrapper.jar          &#x2F;&#x2F;具体业务逻辑
+    │       └── gradle-wrapper.properties   &#x2F;&#x2F;配置文件
+    ├── gradlew                             &#x2F;&#x2F;Linux 下可执行脚本
+    ├── gradlew.bat                         &#x2F;&#x2F;Windows 下可执行脚本
+</pre>
+        配置 <b>wrapper</b>
+<pre>
+    gradlew wrapper --gradle-version=6.6.1
+
+    —gradle-version             用于指定使用的Gradle版本
+    —gradle-distribution-url    用于指定下载Gradle发行版的url地址
+</pre>
+<br/><br/>
+        文件说明 <b>gradle-wrapper.properties</b>
+<pre>
+    distributionBase=GRADLE_USER_HOME
+    distributionPath=wrapper&#x2F;dists
+    distributionUrl=https:&#x2F;&#x2F;services.gradle.org&#x2F;distributions&#x2F;gradle-6.6.1-bin.zip
+    zipStoreBase=GRADLE_USER_HOME
+    zipStorePath=wrapper&#x2F;dists
+
+    distributionBase    下载Gradle压缩包解压后存储的主目录
+    distributionPath    相对于distributionBase的解压后的Gradle的路径
+    zipStoreBase        类似distributionBase，但存放压缩包
+    zipStorePath        类似distributionPath，但存放压缩包
+    distributionUrl     Gradle发行版压缩包的下载地址
+</pre>
+            </section>
+<br/><br/>
+        <strong>GradleUserHome</strong>
+            <section style="margin-left:4%">
+<br/><br/>
+            </section>
+        <strong>Daemon</strong>
+            <section style="margin-left:4%">
+<br/><br/>
+            </section>
+<br/><br/>
+<br/>        </section>
+    </section>
+<b>Grovvy 基础</b>
+    <section style="margin-left:8%;">
+<br/><br/>
+    </section>
+<b>Gradle 构建</b>
+    <section style="margin-left:8%;">
+<br/><br/>
+    </section>
+<b>Gradle 插件</b>
+    <section style="margin-left:8%;">
+<br/><br/>
+    </section>
+<b>插件分析</b>
+    <section style="margin-left:8%;">
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+    </section>
+<b>Gradle VS Maven</b>
+    <section style="margin-left:8%;">
+<br/><br/>
+    <strong>特点</strong>
+        <section style="margin-left:4%">
+    maven 只做依赖管理，需要自定义任务得靠plugin，而gradle 可以很方便管理依赖而且自定义任务轻松加愉快。
+    可以靠gradle脚本实现，比如
+<pre>
+    前端整合 
+    docker整合
+    解压压缩
+    发布上传
+</pre>
+    以上全部可写脚本定义，无需开发插件
+        </section>
+<br/><br/>
+    <strong>比喻</strong>
+        <section style="margin-left:4%">
+    mvn力帆摩托三轮车和gradle本田思域红头车
+        </section>
+<br/><br/>
+<br/><br/>
+    </section>
+<b>Gradle Examples</b>
+    <section style="margin-left:8%;">
+    <strong>Hello World</strong>
+    - 使用 gradle 执行 hello 任务
+<br/><br/>
+        <section style="margin-left:4%">
+    新建文件build.gradle，编辑该文件，输入以下内容：
+<pre>
+    task hello{
+        doLast{
+            println &#x27;Hello world&#x27;
+        }
+    }
+</pre>
+    打开终端，进入build.gradle所在文件夹。使用gradle -q hello命令来执行构建脚本：
+<pre>
+    gradle -q hello
+    Hello World
+</pre>
+    步骤分析
+<pre>
+    build.gradle Gradle默认的构建脚本文件
+        执行Gradle命令的时候，会默认加载当前目录下的build.gradle脚本文件。
+                    
+        该构建脚本定义一个任务（Task)，任务名字叫hello，
+        并且给任务hello添加了一个动作，官方名字叫Action,其实它就是一段Groovy语言实现的闭包。
+        Task执行完毕之后要回调doLast的这部分闭包的代码实现
+                    
+    gradle -q hello 意思是要执行build.gradle脚本中定义的名为hello的Task
+        -q 参数控制 gradle 输出的日志级别，以及哪些日志可以输出被看到。
+
+    println &#x27;Hello world&#x27; 
+        其实就是 System.out.println(&#x27;Hello world&#x27;) 的简写方式。
+
+        Gradle可以识别它，是因为Groovy已经把 println() 这个方法已经添加到 java.lang.Object。
+</pre>
+        </section>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+    </section>
+<b>信息来源</b>
+    <section style="margin-left:8%;">
+    <strong>博客</strong>
+        <section style="margin-left:4%">
+    优秀的个人博客(关于作者)
+        <section style="margin-left:4%">
+    Android 高级开发工程师，多年一线互联网企业开发经验。擅长 Android、Flutter。熟悉 Android Framework层源码，对 Android 性能调优，UI 绘制，RxJava , OKHTTP 等三方主流框架源码有较深研究。
+<br/><br/>
+    个人博客:
+    https:&#x2F;&#x2F;itdashu.com&#x2F;docs&#x2F;gradlebase&#x2F;3e8fd&#x2F;buildproject.html
+        </section>
+<br/><br/>
+        </section>
+<br/><br/>
+    </section>
+</section>
+
+            </section>
+            <style>
+                p:first-of-type{
+                    margin-bottom: 15px;
+                    text-align: center;
+                }
+                p:first-of-type span:first-child {
+                    float: left;
+                }
+                p:first-of-type span:last-child  {
+                    float: right;
+                }
+            </style>
+        </body>
+        </html>
+        
